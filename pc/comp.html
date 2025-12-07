@@ -1,0 +1,432 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemServerToDaymonage</title>
+
+<script src="./tovar.js" defer> </script>
+<script src="./console.js" defer> </script>
+<script src="./onToPc.js" defer> </script>
+
+    <link rel="icon" href="../media/photo_2025-11-01_23-38-02.jpg">
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kalam&display=swap" rel="stylesheet">
+</head>
+<body>
+
+     <span class="money">Баребухи: <p id="money" style="display:inline-block">0</p></span>
+
+<div class="map">
+      <img src="../media/pcfon.png" alt="map" class="blur-border">
+      <div class="ekran" id="ekran"></div>
+
+
+
+
+
+          <div class="contend">
+              <div class="panel" role="tablist" aria-label="Меню модулів">
+                <button class="tab-btn selected" data-target="shop" role="tab" aria-selected="true">Магазин</button>
+                <button class="tab-btn" data-target="inventory" role="tab" aria-selected="false">Инвентарь</button>
+                <button class="tab-btn" data-target="achievements" role="tab" aria-selected="false">Ачивки</button>
+                <button class="tab-btn" data-target="console" role="tab" aria-selected="false">Консоль</button>
+              </div>
+
+              <div class="modules" id="baza">
+                <section id="shop" class="module active" role="tabpanel">
+                  <h3>Магазин</h3>
+                    <div class="block">
+                          <div class="box1" id="p1">
+                            <img src="../media/photo_2025-11-01_23-38-02.jpg"/>
+                            <p>ПельмешкИ ПотешкИ</p>
+                          </div>
+
+                          <div class="box2" id="p2">
+                            <img src="../media/tortik.jpg"/>
+                            <p>Торт (добрый)</p>
+                          </div>
+
+                          <div class="box3" id="p3">
+                            <img src="../media/monster-ultra-zero.jpg"/>
+                            <p>Белый монстр</p>
+                          </div>
+
+                          <div class="box4" id="p4">
+                            <img src="../media/mangoloco.jpg"/>
+                            <p>Монстр манго локо</p>
+                          </div>
+
+                          <div class="box5" id="p5">
+                            <img src="../media/mangococos.jpg"/>
+                            <p>Морила манко кокос</p>
+                          </div>
+
+                          <div class="box6" id="p6">
+                            <img src="../media/scrap.png"/>
+                            <p>Запчасти трактора</p>
+                          </div>  
+
+                          <div class="box7" id="p7">
+                            <img src="../media/monster-ultra-rosa.png"/>
+                            <p>Монстр ультра роза</p>
+                          </div>
+                        
+                           <div class="box8" id="p8">
+                            <img src="../media/kaseta.png"/>
+                            <p>Касета с мультиком</p>
+                          </div>
+                      </div>
+              </div>
+
+
+
+
+
+
+
+                      <div class="pole1" id="pole1">
+                          <div class="bb">
+                            <img src="../media/photo_2025-11-01_23-38-02.jpg"/> <p>ПельмешкИ ПотешкИ</p>
+                          </div>
+                        <div class="polosa"></div>
+                        <p>Лучшие пельмешки для хороших джентельменов и джентельвуманов</p>
+ 
+                        <p class="cena" id="cena">50 баребухав</p> <button id="buyBtn1">Преобрести</button>
+                      </div>
+
+
+
+                      <div class="pole1" id="pole2">
+                          <div class="bb">
+                            <img src="../media/tortik.jpg"/> <p class="b">Тортик (Добрый)</p>
+                          </div>
+                        <div class="polosa"></div>
+                        <p>Самый добрый дорт на свете (торт это зло)</p>
+ 
+                        <p class="cena" id="cena2">80 баребухав</p> <button id="buyBtn2">Преобрести</button>
+                      </div>
+
+
+
+                      <div class="pole1" id="pole3">
+                          <div class="bb">
+                            <img src="../media/monster-ultra-zero.jpg"/> <p>Монстр Ультра Вайт</p>
+                          </div>
+                        <div class="polosa"></div>
+                        <p>Не самый крутой монстр, но для колекции самый раз (им легко закадрить поселение мармиладных свиней)</p>
+ 
+                        <p class="cena" id="cena3">100 баребухав</p> <button id="buyBtn3">Преобрести</button>
+                      </div>
+
+
+
+                      <div class="pole1" id="pole4">
+                          <div class="bb">
+                            <img src="../media/mangoloco.jpg"/> <p class="b">Монстряка манго локо</p>
+                          </div>
+                        <div class="polosa"></div>
+                        <p>Хороший монстряка, им можно попытаться поймать стримера в клетку, но сработает не всегда</p>
+ 
+                        <p class="cena" id="cena4">120 баребухав</p> <button id="buyBtn4">Преобрести</button>
+                      </div>
+
+
+
+                      <div class="pole1" id="pole5">
+                          <div class="bb">
+                            <img src="../media/mangococos.jpg"/> <p>Горила манго кокос</p>
+                          </div>
+                        <div class="polosa"></div>
+                        <p>Ходят слухи, что на него легко ведутся стримеры, но и копеечку будь добр больше отдай</p>
+ 
+                        <p class="cena" id="cena5">200 баребухав</p> <button id="buyBtn5">Преобрести</button>
+                      </div>
+
+                      <div class="pole1" id="pole6">
+                          <div class="bb">
+                            <img src="../media/scrap.png"/> <p>Детали для трактора</p>
+                          </div>
+                        <div class="polosa"></div>
+                        <p>Понятия не имею зачем они тебе, но кажеться они важны</p>
+ 
+                        <p class="cena" id="cena6">10 баребухав</p> <button id="buyBtn6">Преобрести</button>
+                      </div>
+
+                      <div class="pole1" id="pole7">
+                          <div class="bb">
+                            <img src="../media/monster-ultra-rosa.png"/> <p>Монстр ультра роза</p>
+                          </div>
+                        <div class="polosa"></div>
+                        <p>Любимый монстряка програмистов (возможно), а по факту это просто доп. товар в информации которого есть донатные сылки и номера (Стримера и автора) </p>
+ 
+                        <p class="cena" id="cena7">20 баребухав</p> <button id="buyBtn7">Преобрести</button>
+                      </div>
+
+                      <div class="pole1" id="pole8">
+                          <div class="bb">
+                            <img src="../media/kaseta.png"/> <p>Касета</p>
+                          </div>
+                        <div class="polosa"></div>
+                        <p>Касета маша и медведь, интересно что она делала в родительской комнате на верхнем ящеке шкафа.../p>
+ 
+                        <p class="cena" id="cena8">50 баребухав</p> <button id="buyBtn8">Преобрести</button>
+                      </div>
+
+
+
+
+
+                </section>
+
+                <section id="inventory" class="module" role="tabpanel" hidden>
+                  <h3>Инвентарь</h3>
+
+                        <div class="block" id="baza3">
+
+
+
+
+                            <div class="box1" id="i1">
+                              <img src="../media/photo_2025-11-01_23-38-02.jpg"/>
+                              <p>ПельмешкИ ПотешкИ</p>
+                            </div>
+
+                            <div class="box2" id="i2">
+                              <img src="../media/tortik.jpg"/>
+                              <p>Торт (добрый)</p>
+                            </div>
+
+                            <div class="box3" id="i3">
+                              <img src="../media/monster-ultra-zero.jpg"/>
+                              <p>Белый монстр</p>
+                            </div>
+
+                            <div class="box4" id="i4">
+                              <img src="../media/mangoloco.jpg"/>
+                              <p>монстр манго локо</p>
+                            </div>
+
+                            <div class="box5" id="i5">
+                              <img src="../media/mangococos.jpg"/>
+                              <p>горила манко кокос</p>
+                            </div>
+
+                          <div class="box6" id="i6">
+                            <img src="../media/scrap.png"/>
+                            <p>Запчасти трактора</p>
+                          </div>  
+
+                          <div class="box7" id="i7">
+                            <img src="../media/monster-ultra-rosa.png"/>
+                            <p>Монстр ультра роза</p>
+                          </div>
+                        
+                           <div class="box8" id="i8">
+                            <img src="../media/kaseta.png"/>
+                            <p>Касета с мультиком</p>
+                          </div>
+                        </div>
+
+
+
+                      <div class="pole1" id="inf1">
+                          <div class="bb">
+                            <img src="../media/photo_2025-11-01_23-38-02.jpg"/> <p>ПельмешкИ ПотешкИ</p>
+                          </div>
+                        <div class="polosa"></div>
+                        
+                        <video controls>
+                          <source src="../media/potehi.mp4" type="video/mp4">
+                          Ваш браузер не поддерживает видео.
+                        </video>
+ 
+                        <p class="cena" id="koll_1">В мешочке: 0 шт.</p>    <button id="sellBtn1">Продать</button>
+                      </div>
+
+
+                        <div class="pole2" id="inf2">
+                          <div class="bb">
+                            <img src="../media/tortik.jpg"/> <p>Превосходный торт для покойника</p>
+                          </div>
+                        <div class="polosa"></div>
+                        
+                          <img src=""/>
+ 
+                        <p class="cena" id="koll_2">В мешочке: 0 шт.</p>    <button id="sellBtn2">Продать</button>
+                      </div>
+
+
+
+
+                      <div class="pole3" id="inf3">
+                          <div class="bb">
+                            <img src="../media/monster-ultra-zero.jpg"/> <p>Белык монстрыкс</p>
+                          </div>
+                        <div class="polosa"></div>
+                        
+                        <video controls>
+                          <source src="" type="video/mp4">
+                          Ваш браузер не поддерживает видео.
+                        </video>
+ 
+                        <p class="cena" id="koll_3">В мешочке: 0 шт.</p>    <button id="sellBtn3">Продать</button>
+                      </div>
+
+
+
+
+                      <div class="pole4" id="inf4">
+                          <div class="bb">
+                            <img src="../media/mangoloco.jpg"/> <p>Енерджастик 🥭 локальный жэщ</p>
+                          </div>
+                        <div class="polosa"></div>
+                        
+                          <p>Увы этот товар не обладает особенным шмэмсом, казалось бы автор шлюха, но нет, он шлюха.</p>
+ 
+                        <p class="cena" id="koll_4">В мешочке: 0 шт.</p>    <button id="sellBtn4">Продать</button>
+                      </div>
+
+
+
+
+                      <div class="pole5" id="inf5">
+                          <div class="bb">
+                            <img src="../media/mangococos.jpg"/> <p>Гарила манго коксык</p>
+                          </div>
+                        <div class="polosa"></div>
+                        
+                        <video controls>
+                          <source src="" type="video/mp4">
+                          Ваш браузер не поддерживает видео.
+                        </video>
+ 
+                        <p class="cena" id="koll_5">В мешочке: 0 шт.</p>    <button id="sellBtn5">Продать</button>
+                      </div>
+
+
+                      <div class="pole6" id="inf6">
+                          <div class="bb">
+                            <img src="../media/scrap.png"/> <p>Скрап</p>
+                          </div>
+                        <div class="polosa"></div>
+                        
+                          <p>three hundred bucks, и тракторист не буде делать гигали гагали</p>
+ 
+                        <p class="cena" id="koll_6">В мешочке: 0 шт.</p>    <button id="sellBtn6">Продать</button>
+                      </div>
+
+
+
+                      <div class="pole7" id="inf7">
+                          <div class="bb">
+                            <img src="../media/monster-ultra-rosa.png"/> <p> Хули ты тут ищещ? меня хочешь?</p>
+                          </div>
+                        <div class="polosa"></div>
+                        
+                        <p>Донаты Дейману - </p>
+                        <a href="https://www.donationalerts.com/r/daymonmontage"> Нажми на текст</a>
+                        <p> а также банковские данные можно узнать на твиче Деймана - </p> 
+                        <a href="https://www.twitch.tv/daymonmontage/about"> Нажми на текст</a>
+
+                        <p><br> А поддержать автора можно по этим сылкам/картам:</p> 
+                        <a href="https://send.monobank.ua/jar/2uxU27V5pX"> нажми на текст</a>
+                        <p> 4874070050177300 <br> 4874100084337123</p>
+
+                        <p class="cena" id="koll_7">В мешочке: 0 шт.</p>    <button id="sellBtn7">Продать</button>
+                      </div>
+
+
+
+                      <div class="pole8" id="inf8">
+                          <div class="bb">
+                            <img src="../media/kaseta.png"/> <p></p>
+                          </div>
+                        <div class="polosa"></div>
+                        
+
+ 
+                        <p class="cena" id="koll_8">В мешочке: 0 шт.</p>    <button id="sellBtn8">Продать</button>
+                      </div>
+
+                </section>
+
+
+
+
+
+
+
+                <section id="achievements" class="module" role="tabpanel" hidden>
+                  <h3>Aчивки</h3>
+
+
+                </section>
+
+
+
+
+
+
+
+
+
+                    <section id="console" class="module" role="tabpanel" hidden>
+                  <h3>Консоль</h3>
+                  <div class="console-container">
+                    <input type="text" id="consoleInput" placeholder="_" autocomplete="off">
+                    <button id="consoleEnter">Enter</button>
+                  </div>
+                  <div id="consoleOutput" class="console-output"></div>
+                </section>
+              
+          </div>
+
+
+    <div class="overlay">
+      
+      <div class="onoff" id="on_off" title="Press E"></div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+</body>
+
+
+
+<script type="module">
+  import { getMoney, onMoneyChange } from '../money.js'; // <- поправ шлях тут
+
+  // елемент, де показуємо баланс
+  const moneyEl = document.getElementById('money');
+
+  // показуємо поточний баланс одразу
+  try { moneyEl.textContent = String(getMoney()); } catch(e){ console.warn(e); moneyEl.textContent = '0'; }
+
+  // підписка на оновлення (money.js має onMoneyChange)
+  if (typeof onMoneyChange === 'function') {
+    onMoneyChange((val) => {
+      moneyEl.textContent = String(val);
+    });
+  } else {
+    // fallback: періодичне оновлення якщо onMoneyChange немає
+    setInterval(async () => {
+      try {
+        const m = await import('../money.js'); // або інший шлях
+        if (m && typeof m.getMoney === 'function') moneyEl.textContent = String(m.getMoney());
+      } catch (err) { /* ignore */ }
+    }, 1000);
+  }
+</script>
+
+
+
+
+</html>

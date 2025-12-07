@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemServerToDaymonage</title>
+
+<script src="./script.js" defer> </script>
+
+    <link rel="icon" href="./media/photo_2025-11-01_23-38-02.jpg">
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kalam&display=swap" rel="stylesheet">
+</head>
+<body>
+   <span class="money">Баребухи: <p id="money" style="display:inline-block">0</p></span>
+<button class="info" onclick="openModal()"><img src="./media/info-circle-svgrepo-com.svg"/></button>
+
+
+  <div class="map">
+    <img src="./media/baza.png" alt="map" class="blur-border">
+    <div class="overlay">
+      <!-- data-link атрибут містить URL, який відкриється при натиску E (або У) -->
+      <div class="pc" data-link="./pc/comp.html" title="Press E"></div>
+      <div class="server" data-link="./ser/server.html" title="Press E"></div>
+    </div>
+  </div>
+
+
+
+
+
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <button id="closeModal">Закрыть окно</button>
+    <p>Дарова читатель, это блок информации и сейчас я чутка розкажу что это вообще за сайт, зачем а главное нахуя<br>
+    <br>
+    Начну я с того что эта мини-игра не создавалась с целью сделать всё идеально, со своим лором или тп, она создавалась чисто что б поиграть пару минут, поймать хихи и всё.<br>
+    <br>
+    Что есть на сайте -<br>
+    -Главная страница с картой<br>
+    -Страница с сервером<br>
+    -Страница с пк у которого есть:<br>
+    »Магазин (Для закрывания товара - даблкилк за панелью)<br>
+    »Инвентарь<br>
+    »Ачивки<br>
+    »Консоль<br>
+    <br>
+    Из всего этого выделяеться лишь консоль, у неё тоже есть свои фишки но основная её функция - помощ в розработке.<br>
+  </p>
+    
+  </div>
+</div>
+
+
+
+
+
+</body>
+
+<script type="module">
+  import { getMoney, onMoneyChange } from '../money.js'; // <- поправ шлях тут
+
+  // елемент, де показуємо баланс
+  const moneyEl = document.getElementById('money');
+
+  // показуємо поточний баланс одразу
+  try { moneyEl.textContent = String(getMoney()); } catch(e){ console.warn(e); moneyEl.textContent = '0'; }
+
+  // підписка на оновлення (money.js має onMoneyChange)
+  if (typeof onMoneyChange === 'function') {
+    onMoneyChange((val) => {
+      moneyEl.textContent = String(val);
+    });
+  } else {
+    // fallback: періодичне оновлення якщо onMoneyChange немає
+    setInterval(async () => {
+      try {
+        const m = await import('../money.js'); // або інший шлях
+        if (m && typeof m.getMoney === 'function') moneyEl.textContent = String(m.getMoney());
+      } catch (err) { /* ignore */ }
+    }, 1000);
+  }
+</script>
+
+</html>
+
+        <!-- если в магазе выбрать торт, ты умрёшь, веть торт, это зло -->

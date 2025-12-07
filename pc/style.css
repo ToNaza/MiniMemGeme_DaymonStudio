@@ -1,0 +1,362 @@
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  background: #111111; /* темний фон навколо карти */
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+/* КОНТЕЙНЕР з картою */
+.map{
+  width:90vw;            /* або конкретно: 1200px */
+  max-width:1200px;
+  position:relative;
+  /* заміни на відношення своєї картинки (width / height) */
+  aspect-ratio: 1365 / 768; 
+  overflow:visible;
+
+
+  img{
+  position:absolute;
+  inset:0;
+  width:108%;
+  height:108%;
+  object-fit:contain; /* або cover, якщо хочеш обрізання */
+  display:block;
+  user-select:none;
+  pointer-events:none;
+  margin-top: -35px;
+  z-index: 10;
+}
+
+}
+
+
+
+.ekran{
+  position:absolute;
+  background-color: rgb(0, 0, 0); /* прозорий центр */
+  border-radius:2px;
+  display: block;
+  z-index: 3;
+
+  left: 32%;   /* X% = (pixelX / imageWidth) * 100 */
+  top:  15%;   /* Y% = (pixelY / imageHeight) * 100 */
+  width: 58%;  /* W% = (pixelWidth / imageWidth) * 100 */
+  height: 65%; /* H% = (pixelHeight / imageHeight) * 100 */
+}
+
+
+.contend{
+  position:absolute;
+  background-color: rgb(100, 98, 128); /* прозорий центр */
+  border-radius:2px;
+  display: block;
+  z-index: 1;
+
+  left: 32%;   /* X% = (pixelX / imageWidth) * 100 */
+  top:  15%;   /* Y% = (pixelY / imageHeight) * 100 */
+  width: 58%;  /* W% = (pixelWidth / imageWidth) * 100 */
+  height: 65%; /* H% = (pixelHeight / imageHeight) * 100 */
+
+h3{
+  text-align: center;
+}
+
+  .panel{
+    display: flex;
+
+
+    button{
+      width: 180px;
+      height: 30px;
+      background-color: rgb(30, 66, 38);
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
+}
+
+
+
+
+
+
+/* накладка для абсолютно позиційованих блоків */
+.overlay{
+  position:absolute;
+  inset:0;
+  pointer-events:none; /* щоб кліки проходили крізь блоки, прибери якщо треба інакше */
+}
+
+/* стиль прозорих блоків */
+.onoff{
+  position:absolute;
+  background-color: rgba(0, 0, 0, 0); /* прозорий центр */
+  border:3px solid #ffffff;
+  border-radius:2px;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 180ms ease, transform 180ms ease;
+  pointer-events: auto; /* дозволяє hover */
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* при наведенні блок появляється */
+.onoff:hover{
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.02); /* невелике збільшення для акценту */
+}
+
+/* ---- приклад: конкретні відсоткові координати ----
+   Заміни числа (left/top/width/height) на свої, див. інструкцію нижче
+*/
+.onoff{
+  left: 18.5%;   /* X% = (pixelX / imageWidth) * 100 */
+  top:  56.5%;   /* Y% = (pixelY / imageHeight) * 100 */
+  width: 3%;  /* W% = (pixelWidth / imageWidth) * 100 */
+  height: 5.5%; /* H% = (pixelHeight / imageHeight) * 100 */
+}
+
+
+
+.money{
+    position: absolute; 
+    left: 0; 
+    top: 0; 
+    margin: 10px; 
+    color: white;
+    background-color: black;
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 13.5px;
+    border-radius: 5px;
+    border: 2px white dotted;
+    z-index: 999;
+}
+
+
+.monitor-video{
+  position: absolute;
+  object-fit: cover;
+  z-index: 2; /* понад іншими елементами карти */
+  pointer-events: none; /* щоб кліки проходили до .onoff якщо треба */
+  background: black;
+  display: block;
+}
+
+
+
+
+
+  #consoleInput {
+    margin-bottom: 10px;
+    width: 400px;
+    height: 20px;
+    margin-left: 10px;
+    background-color: #292929;
+    color: white;
+    padding: 3px;
+    border: solid white 1px;
+    border-radius: 2px;
+  }
+
+  #consoleInput input {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 6px 0 0 6px;
+    outline: none;
+  }
+
+  #consoleEnter{
+    background-color: #292929;
+    width: 150px;
+    height: 20px;
+    border: solid white 1px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  .console-output {
+    background: #111;
+    border-radius: 8px;
+    height: 200px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse; /* Нові команди зверху */
+    padding: 10px;
+    color: greenyellow;
+    min-height: 360px;
+    max-width: 690px;
+  white-space: pre-wrap;   /* переносить текст, якщо він довгий */
+
+  }
+
+  .console-line {
+    margin: 3px 0;
+    word-break: break-word;
+  }
+
+
+.block {
+  display: block;
+  margin: auto;
+  width: 100%; /* або фіксовану ширину, якщо треба */
+  height: 380px; /* вистави під розмір твого монітора */
+  overflow-y: auto; /* дозволяє прокрутку вниз */
+  overflow-x: hidden; /* ховає горизонтальну прокрутку */
+  text-align: center;
+}
+
+@media screen and (max-width: 1500px) {
+.block{
+  padding-bottom: 50px;
+}
+}
+
+@media screen and (max-width: 1300px) {
+.block{
+  padding-bottom: 100px;
+}
+}
+
+@media screen and (max-width: 1150px) {
+.block{
+  padding-bottom: 150px;
+}
+}
+
+
+.box1, .box2, .box3, .box4, .box5, .box6, .box7, .box8 {
+  width: 180px;
+  height: 150px;
+  background-color: rgb(83, 58, 151);
+  border: 2px solid #333;
+  border-radius: 6px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  color: black;
+  margin: 12px;
+  padding: 8px;
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  position: relative;
+
+  img {
+  width: 100%;
+  height: 100px;
+  object-fit: contain; /* або cover, якщо хочеш обрізати */
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+
+p {
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 4px;
+  padding: 5px;
+  margin-top: 100px;
+  font-size: 14px;
+}
+}
+
+
+
+
+
+.pole1, .pole2, .pole3, .pole4, .pole5, .pole6, .pole7, .pole8{
+  width: 90%;
+  height: 70%;
+  background-color: #111111;
+  position: absolute;
+  margin-top: -380px;
+  z-index: 200;
+  margin-left: 4%;
+  border-radius: 5px;
+  border: solid white 2px;
+  display: none;
+
+  .bb{
+    display: flex;
+
+    img{
+    height: 78px;
+    object-fit: contain; /* або cover, якщо хочеш обрізати */
+    margin: 0 auto;
+    border-radius: 4px;
+    margin-left: -46%;
+    }
+    
+    p{
+      margin-left: 150px;
+    }
+    
+
+   
+  }
+
+
+  .polosa{
+    width: 100%;
+    height: 2px;
+    margin-top: 50px;
+    background-color: white;
+  }
+
+  p{
+    color: wheat;
+    margin: 5px;
+  }
+
+   .cena{
+        position: absolute;
+        bottom: 0;
+    }
+
+
+    button{
+        width: 200px;
+        border-radius: 5px;
+        background-color: green;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        margin: 5px;
+      }
+}
+
+#inf1{
+
+
+  video{
+    height: 65%;
+    position: absolute;
+    margin-left: 33%;
+  }
+}
+
+#pole2{
+  img{
+    padding-left: 25%;
+  }
+
+  .b{
+    margin-left: 45%;
+  }
+}
+
+#pole5{
+  img{
+    padding-left: 10%;
+  }
+}
+

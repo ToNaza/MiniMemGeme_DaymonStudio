@@ -1,0 +1,111 @@
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  background: #111111; /* темний фон навколо карти */
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+/* КОНТЕЙНЕР з картою */
+.map{
+  width:80vw;            /* або конкретно: 1200px */
+  max-width:1200px;
+  position:relative;
+  /* заміни на відношення своєї картинки (width / height) */
+  aspect-ratio: 1365 / 768; 
+  overflow:visible;
+}
+
+/* сама картинка — займає весь контейнер, зберігає співвідношення сторін */
+.map img{
+  position:absolute;
+  inset:0;
+  width:108%;
+  height:108%;
+  object-fit:contain; /* або cover, якщо хочеш обрізання */
+  display:block;
+  user-select:none;
+  pointer-events:none;
+  margin-top: -35px;
+}
+
+/* накладка для абсолютно позиційованих блоків */
+.overlay{
+  position:absolute;
+  inset:0;
+  pointer-events:none; /* щоб кліки проходили крізь блоки, прибери якщо треба інакше */
+}
+
+/* стиль прозорих блоків */
+.game{
+  position:absolute;
+  background-color: rgba(0, 0, 0, 0); /* прозорий центр */
+  border:3px solid #ffffff;
+  border-radius:2px;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 180ms ease, transform 180ms ease;
+  pointer-events: auto; /* дозволяє hover */
+  cursor: pointer;
+}
+
+/* при наведенні блок появляється */
+.game:hover{
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.02); /* невелике збільшення для акценту */
+}
+
+/* ---- приклад: конкретні відсоткові координати ----
+   Заміни числа (left/top/width/height) на свої, див. інструкцію нижче
+*/
+.game{
+  left: 53%;   /* X% = (pixelX / imageWidth) * 100 */
+  top:  50.5%;   /* Y% = (pixelY / imageHeight) * 100 */
+  width: 29%;  /* W% = (pixelWidth / imageWidth) * 100 */
+  height: 90%; /* H% = (pixelHeight / imageHeight) * 100 */
+}
+
+
+
+.container{width:960px;max-width:96%;text-align:center}
+button{cursor:pointer}
+.open-btn{background:linear-gradient(180deg,#2563eb,#1e40af);color:white;border:none;padding:12px 18px;border-radius:8px;box-shadow:0 6px 18px rgba(2,6,23,0.6);font-size:16px}
+.money{
+    position: absolute; 
+    left: 0; 
+    top: 0; 
+    margin: 10px; 
+    color: white;
+}
+
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.modal{width:900px;max-width:100%;background:linear-gradient(180deg,#071029,#0b1a2b);border-radius:12px;padding:18px;box-shadow:0 12px 40px rgba(2,6,23,0.8)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.modal-title{font-weight:700}
+.close-btn{background:transparent;color:#cbd5e1;border:1px solid rgba(255,255,255,0.04);padding:6px 10px;border-radius:8px}
+
+
+.task-row{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;margin-bottom:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)}
+.digits{display:flex;gap:6px;flex-wrap:wrap;flex:1 1 auto}
+.digit-btn{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);color:#e6eef8;font-weight:700;user-select:none}
+.digit-btn:disabled{opacity:0.45;cursor:not-allowed}
+
+
+.expression{min-width:110px;text-align:center;font-weight:700;background:rgba(255,255,255,0.01);padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.02)}
+
+
+.status{min-width:120px;text-align:center;font-weight:700;padding:6px 10px;border-radius:6px}
+.status.correct{background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.25)}
+.status.wrong{background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.18)}
+.status.pending{background:transparent;color:#9fb2d6;border:1px dashed rgba(255,255,255,0.03)}
+
+
+.modal-footer{display:flex;gap:12px;justify-content:space-between;margin-top:12px;align-items:center}
+.timer-box{display:flex;gap:12px;align-items:center}
+.timer-field{background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);min-width:170px;text-align:center}
+
+
+@media(max-width:720px){.digit-btn{width:30px;height:30px;font-size:14px}.expression{min-width:90px}.status{min-width:100px;font-size:14px}.timer-field{min-width:120px}}
