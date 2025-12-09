@@ -5,6 +5,31 @@
   const overlay = document.querySelector('.overlay') || document.querySelector('.map');
   let activeVideo = null;
   let monitorOn = false;
+  
+  // *** Ключ для збереження стану в localStorage ***
+  const STORAGE_KEY = 'monitorState'; 
+
+  // --- Функції для роботи з localStorage ---
+
+  function saveMonitorState(state) {
+    try {
+      localStorage.setItem(STORAGE_KEY, state ? 'on' : 'off');
+    } catch (e) {
+      console.error("Помилка збереження стану в localStorage:", e);
+    }
+  }
+
+  function loadMonitorState() {
+    try {
+      const savedState = localStorage.getItem(STORAGE_KEY);
+      return savedState === 'on';
+    } catch (e) {
+      console.error("Помилка завантаження стану з localStorage:", e);
+      return false; // Повертаємо false, якщо сталася помилка
+    }
+  }
+  
+  // --- Існуючі функції, модифіковані для роботи зі збереженням стану ---
 
   function removeVideo() {
     if (activeVideo && activeVideo.parentNode) {
@@ -24,8 +49,18 @@
     toEl.style.transform = cs.transform === 'none' ? '' : cs.transform;
   }
 
-  function turnOnMonitor() {
+  function turnOnMonitor(initialLoad = false) {
     monitorOn = true;
+    saveMonitorState(true); // Зберігаємо стан "увімкнено"
+
+    // При початковому завантаженні не потрібно відтворювати відео-анімацію 
+    // і ми можемо одразу показати контент
+    if (initialLoad) {
+      ekran.style.display = 'none';
+      contend.style.display = 'block';
+      return;
+    }
+
     ekran.style.display = 'none';
     contend.style.display = 'none';
     removeVideo();
@@ -54,10 +89,27 @@
 
   function turnOffMonitor() {
     monitorOn = false;
+    saveMonitorState(false); // Зберігаємо стан "вимкнено"
     removeVideo();
     contend.style.display = 'none';
     ekran.style.display = 'block';
   }
+  
+  // --- Ініціалізація при завантаженні сторінки ---
+  
+  function initializeMonitorState() {
+      const savedState = loadMonitorState();
+      if (savedState) {
+          // Якщо монітор був увімкнений, викликаємо turnOnMonitor, 
+          // передаючи true, щоб пропустити анімацію
+          turnOnMonitor(true); 
+      } else {
+          // Якщо вимкнений або стан не знайдено/помилка
+          turnOffMonitor();
+      }
+  }
+
+  // --- Обробники подій ---
 
   onoff.addEventListener('click', () => {
     if (monitorOn) {
@@ -70,6 +122,9 @@
   window.addEventListener('resize', () => {
     if (activeVideo) copyPosition(ekran, activeVideo);
   });
+  
+  // *** Виклик ініціалізаційної функції наприкінці анонімної функції ***
+  initializeMonitorState();
 })();
 
 

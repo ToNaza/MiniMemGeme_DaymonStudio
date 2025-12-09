@@ -1,0 +1,65 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemServerToDaymonage</title>
+
+<script src="./script.js" defer> </script>
+<script type="module">
+  import { getMoney, onMoneyChange } from '../money.js'; // <- поправ шлях тут
+
+  // елемент, де показуємо баланс
+  const moneyEl = document.getElementById('money');
+
+  // показуємо поточний баланс одразу
+  try { moneyEl.textContent = String(getMoney()); } catch(e){ console.warn(e); moneyEl.textContent = '0'; }
+
+  // підписка на оновлення (money.js має onMoneyChange)
+  if (typeof onMoneyChange === 'function') {
+    onMoneyChange((val) => {
+      moneyEl.textContent = String(val);
+    });
+  } else {
+    // fallback: періодичне оновлення якщо onMoneyChange немає
+    setInterval(async () => {
+      try {
+        const m = await import('../money.js'); // або інший шлях
+        if (m && typeof m.getMoney === 'function') moneyEl.textContent = String(m.getMoney());
+      } catch (err) { /* ignore */ }
+    }, 1000);
+  } 
+</script>
+
+    <link rel="icon" href="../media/photo_2025-11-01_23-38-02.jpg">
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kalam&display=swap" rel="stylesheet">
+</head>
+<body>
+<span class="money">Баребухи: <p id="money" style="display:inline-block">0</p></span>
+
+
+
+<div class="block" id="gameArea">
+        <div class="bl">
+            <button id="easy">Лёгкая</button>
+            <button id="average">Ссредняя</button>
+            <button id="complex">Сложная</button>
+        </div>
+        <div class="polosa"></div>
+        <div class="polosa2" id="spawnLine"></div>
+        <div id="player"></div>
+        <div class="polosa3"></div>
+    </div>
+
+    <div id="punishmentScreen"> 
+    <div id="punishmentContent"></div>
+
+<audio id="sound1Src" src="../media/sercebienie-7.mp3" preload="auto"></audio>
+<audio id="sound2Src" src="../media/sercebienie-6.mp3" preload="auto"></audio>
+
+</body>
+
+</html>
+
+<script src=""></script>

@@ -63,8 +63,8 @@
 
   // Тепер основна логіка модалки (взято з попереднього коду, але з гарантованим DOM-ready)
   const NUMBER_OF_ROWS = 6;
-  const REWARD_POINTS = 20;
-  const RECORD_BONUS = -10;
+  const REWARD_POINTS = 50;
+  const RECORD_BONUS = -20;
   const RECORD_KEY = 'vov_math_record_ms_v1';
 
   const openModalBtn = document.getElementById('openModal');
