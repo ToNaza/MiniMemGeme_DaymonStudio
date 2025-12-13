@@ -69,7 +69,7 @@ h3{
     display: flex;
 
 
-    button{
+    .tab-btn{
       width: 180px;
       height: 30px;
       background-color: rgb(30, 66, 38);
@@ -125,7 +125,7 @@ h3{
 
 
 .money{
-    position: absolute; 
+    position: fixed; 
     left: 0; 
     top: 0; 
     margin: 10px; 
@@ -293,7 +293,7 @@ p {
     object-fit: contain; /* або cover, якщо хочеш обрізати */
     margin: 0 auto;
     border-radius: 4px;
-    margin-left: -46%;
+    margin-left: -43%;
     }
     
     p{
@@ -323,7 +323,7 @@ p {
     }
 
 
-    button{
+    .btn1{
         width: 200px;
         border-radius: 5px;
         background-color: green;
@@ -334,9 +334,7 @@ p {
       }
 }
 
-#inf1{
-
-
+#inf1, #inf3, #inf5{
   video{
     height: 65%;
     position: absolute;
@@ -344,19 +342,135 @@ p {
   }
 }
 
-#pole2{
-  img{
-    padding-left: 25%;
-  }
-
-  .b{
-    margin-left: 45%;
+#inf8{
+  video{
+    height: 65%;
+    position: absolute;
+    margin-left: 25%;
   }
 }
 
-#pole5{
-  img{
-    padding-left: 10%;
+
+#inf2{
+  .ava{
+    position: absolute;
+    left: 0;
+  }
+
+  .tor{
+    height: 60%;
+    margin: auto;
+    margin-left: -9%;
+    margin-bottom: 3%;
   }
 }
+
+@media screen and (max-width: 1020px) {
+  #inf2{
+    .tor{
+      height: 50%;
+      margin-bottom: 6%;
+    }
+  }
+}
+
+.block777{
+position: absolute;
+margin-left: -15%;
+width: 100%;
+
+#v1, #v2, #v3{
+    position: absolute;
+    width: 80%;
+    height: 195px;
+    margin-left: 25%;
+    background-color: #2b2b2b;
+    border: rgb(146, 107, 107) 3px dashed ;
+
+
+    
+    p{
+      color: rgb(224, 119, 119);
+        font-weight: 550;
+        font-size: 18px;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    button{
+      width: 200px;
+      height: 30px;
+      background-color: rgb(226, 24, 24);
+      margin: 20px;
+      margin-top: 18%;
+      border-radius: 10px;
+      border: rgb(196, 196, 196) 2px dashed ;
+      font-weight: 550;
+    }
+}
+}
+
+
+@media screen and (min-width: 1320px) {
+.block777{
+  #v1, #v2, #v3{
+        height: 200px;
+  }
+}
+}
+
+#v1{
+  z-index: 9999;
+      display: block;
+}
+
+#v2{
+  z-index: 9997;
+      display: block;
+}
+
+#v3{
+  z-index: 9981;
+      display: block;
+}
+
+
+.block4 {
+  display: block;
+  margin: auto;
+  width: 100%; /* або фіксовану ширину, якщо треба */
+  height: 380px; /* вистави під розмір твого монітора */
+  overflow-y: auto; /* дозволяє прокрутку вниз */
+  overflow-x: hidden; /* ховає горизонтальну прокрутку */
+  text-align: center;
+}
+
+
+.o1, .o2, .o3, .o4, .o5 {
+  width: 100%;
+  height: 35%;
+  border-radius: 6px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  position: relative;
+
+  img {
+  width: 100%;
+  height: 130px;
+  object-fit: contain; /* або cover, якщо хочеш обрізати */
+  margin: 0 auto;
+  border-radius: 4px;
+}
+}
+
+#krev1{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+
 

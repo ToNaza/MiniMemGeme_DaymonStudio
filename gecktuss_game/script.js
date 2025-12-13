@@ -71,8 +71,8 @@
     const PLAYER_SPEED = 9; 
 
     const CONFIG = {
-        easy: { name: 'easy', goodChance: 0.6, speed: 11, spawnRate: 800, reward: 10, penalty: -15 },
-        average: { name: 'average', goodChance: 0.4, speed: 15, spawnRate: 500, reward: 20, penalty: -25 },
+        easy: { name: 'easy', goodChance: 0.6, speed: 11, spawnRate: 800, reward: 5, penalty: -10 },
+        average: { name: 'average', goodChance: 0.4, speed: 15, spawnRate: 500, reward: 10, penalty: -15 },
         complex: { name: 'complex', goodChance: 0.2, speed: 18, spawnRate: 300, reward: 50, penalty: -50}
     };
 

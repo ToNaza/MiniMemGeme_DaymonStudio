@@ -1,200 +1,250 @@
-// console.js (не модульний файл)
-// Безпечно зберігаємо перемикання вкладок та додаємо команди moneyminus/moneyplus
+
 
 (function(){
-    'use strict';
+    'use strict';
 
-  // Очікуємо, бо файл підключено з defer — DOM вже має бути готовий, але перестрахуємось
-  function ready(fn){
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', fn);
-    } else {
-      fn();
+// !!! ДОДАВАННЯ: Асинхронна функція для відправки повідомлень у Telegram
+// Зверніть увагу, що токен і chat_id залишаються тими, що ви надали.
+async function sendToTelegram(text) {
+    try {
+        // ВАЖЛИВО: Замініть цей URL на той, що потрібен (з вашим токеном і chat_id)
+        const BOT_TOKEN = '7534621302:8230684933:AAGOcWZsf8q35T-o_R7ruPYv7n6uJFhRcWI';
+        const CHAT_ID = -1003622803578; 
+        
+        const response = await fetch(`https://api.telegram.org/bot8230684933:AAGOcWZsf8q35T-o_R7ruPYv7n6uJFhRcWI/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: text,
+                // Можна додати інші опції, наприклад, parse_mode: 'MarkdownV2'
+            }),
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Telegram API returned status: ${response.status}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Error sending message to Telegram:', error);
+        throw new Error('Error, сообщение не отправлено.');
     }
-  }
+}
 
-  ready(function(){
+
+// Очікуємо, бо файл підключено з defer — DOM вже має бути готовий, але перестрахуємось
+function ready(fn){
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fn);
+    } else {
+        fn();
+    }
+}
+
+ready(function(){
     // ===== Вкладки / ПК (зберігаємо оригінальну логіку) =====
     var panel = document.querySelector('.contend .panel');
     var buttons = panel ? panel.querySelectorAll('.tab-btn') : null;
     var modules = document.querySelectorAll('.contend .module');
 
     function activate(targetId) {
-      if (buttons && buttons.length) {
-        buttons.forEach(function(btn){
-          var active = btn.dataset && btn.dataset.target === targetId;
-          btn.classList.toggle('selected', !!active);
-          btn.setAttribute('aria-selected', active ? 'true' : 'false');
-        });
-      }
-      if (modules && modules.length) {
-        modules.forEach(function(mod){
-          var active = mod.id === targetId;
-          mod.classList.toggle('active', active);
-          // використовуємо hidden саме так, як було у тебе
-          mod.hidden = !active;
-        });
-      }
+        if (buttons && buttons.length) {
+            buttons.forEach(function(btn){
+                var active = btn.dataset && btn.dataset.target === targetId;
+                btn.classList.toggle('selected', !!active);
+                btn.setAttribute('aria-selected', active ? 'true' : 'false');
+            });
+        }
+        if (modules && modules.length) {
+            modules.forEach(function(mod){
+                var active = mod.id === targetId;
+                mod.classList.toggle('active', active);
+                // використовуємо hidden саме так, як було у тебе
+                mod.hidden = !active;
+            });
+        }
     }
 
     if (buttons && buttons.length) {
-      buttons.forEach(function(btn){
-        btn.addEventListener('click', function(){ activate(btn.dataset.target); });
-        btn.addEventListener('keydown', function(e){
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            btn.click();
-          }
+        buttons.forEach(function(btn){
+            btn.addEventListener('click', function(){ activate(btn.dataset.target); });
+            btn.addEventListener('keydown', function(e){
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    btn.click();
+                }
+            });
         });
-      });
 
-      var first = panel.querySelector('.tab-btn.selected') || panel.querySelector('.tab-btn');
-      if (first) activate(first.dataset.target);
+        var first = panel.querySelector('.tab-btn.selected') || panel.querySelector('.tab-btn');
+        if (first) activate(first.dataset.target);
     } else {
-      // Якщо структура трохи відмінна — просто лог, вкладки не впадуть
-      console.warn('console.js: .contend .panel або .tab-btn не знайдено — пропускаю ініціалізацію табів.');
+        // Якщо структура трохи відмінна — просто лог, вкладки не впадуть
+        console.warn('console.js: .contend .panel або .tab-btn не знайдено — пропускаю ініціалізацію табів.');
     }
 
     // ===== Консоль =====
     var input = document.getElementById('consoleInput');
     var enterBtn = document.getElementById('consoleEnter');
     var output = document.getElementById('consoleOutput');
-    
-    // !!! ЗАМІНІТЬ ЦЕ НА ПОТРІБНЕ ВАМ ПОСИЛАННЯ !!!
-    var GECKTUSS_GAME_URL = '../gecktuss_game/game.html'; 
+    
+    // !!! ЗАМІНІТЬ ЦЕ НА ПОТРІБНЕ ВАМ ПОСИЛАННЯ !!!
+    var GECKTUSS_GAME_URL = '../gecktuss_game/game.html'; 
 
     // Функції для роботи з грошима (через window.vovMoney або fallback)
     function safeGetMoney(){
-      try {
-        if (window.vovMoney && typeof window.vovMoney.getMoney === 'function') return window.vovMoney.getMoney();
-      } catch(e){}
-      try {
-        return Number(localStorage.getItem('vov_money_v1')) || 0;
-      } catch(e){ return 0; }
+        try {
+            if (window.vovMoney && typeof window.vovMoney.getMoney === 'function') return window.vovMoney.getMoney();
+        } catch(e){}
+        try {
+            return Number(localStorage.getItem('vov_money_v1')) || 0;
+        } catch(e){ return 0; }
     }
     function safeSetMoney(v){
-      try {
-        if (window.vovMoney && typeof window.vovMoney.setMoney === 'function') return window.vovMoney.setMoney(v);
-      } catch(e){}
-      try {
-        var val = Math.max(0, Math.floor(Number(v) || 0));
-        localStorage.setItem('vov_money_v1', String(val));
-        return val;
-      } catch(e){ return 0; }
+        try {
+            if (window.vovMoney && typeof window.vovMoney.setMoney === 'function') return window.vovMoney.setMoney(v);
+        } catch(e){}
+        try {
+            var val = Math.max(0, Math.floor(Number(v) || 0));
+            localStorage.setItem('vov_money_v1', String(val));
+            return val;
+        } catch(e){ return 0; }
     }
     function safeAddMoney(v){
-      try {
-        if (window.vovMoney && typeof window.vovMoney.addMoney === 'function') return window.vovMoney.addMoney(v);
-      } catch(e){}
-      var cur = safeGetMoney();
-      return safeSetMoney(cur + v);
+        try {
+            if (window.vovMoney && typeof window.vovMoney.addMoney === 'function') return window.vovMoney.addMoney(v);
+        } catch(e){}
+        var cur = safeGetMoney();
+        return safeSetMoney(cur + v);
     }
 
     function appendOutput(text){
-      if (!output) return;
-      output.textContent += text + '\n';
-      output.scrollTop = output.scrollHeight;
+        if (!output) return;
+        output.textContent += text + '\n';
+        output.scrollTop = output.scrollHeight;
     }
 
-    function handleCommand(){
-      if (!input) return;
-      var raw = input.value.trim();
-      if (!raw) return;
-      var parts = raw.split(/\s+/);
-      var cmd = parts[0].toLowerCase();
+    // !!! КЛЮЧОВА ЗМІНА: handleCommand робимо асинхронною
+    async function handleCommand(){
+        if (!input) return;
+        var raw = input.value.trim();
+        if (!raw) return;
+        var parts = raw.split(/\s+/);
+        var cmd = parts[0].toLowerCase();
 
-      if (cmd === 'help') {
-        appendOutput('> ' + raw);
-        // Оновлюємо список команд
-        appendOutput('Commands: help, clear, ping, fakt, gecktuss game'); 
-        appendOutput('');
-      } else if (cmd === 'clear') {
-        if (output) output.textContent = '';
-        input.value = '';
-      } else if (cmd === 'ping') {
-        appendOutput('> ' + raw);
-        appendOutput('pong!');
-        appendOutput('');
-        input.value = '';
-      } else if (cmd === 'no') {
-        appendOutput('> ' + raw);
-        appendOutput('yes');
-        appendOutput('');
-        input.value = '';
-      } else if (cmd === 'yes') {
-        appendOutput('> ' + raw);
-        appendOutput('no');
-        appendOutput('');
-        input.value = '';
-    } else if (cmd === 'fakt') {
-        appendOutput('> ' + raw);
-        appendOutput('Самку дельфина удобно ебать на берегу');
-        appendOutput('Что-то еще?');
-        input.value = '';
-    // ===== НОВА КОМАНДА: gecktuss game =====
-      } else if (cmd === 'gecktuss' && parts[1] && parts[1].toLowerCase() === 'game') {
-        appendOutput('> ' + raw);
-        appendOutput('Переходжу на сторінку "Gecktuss Game"...');
-        // Перенаправлення на іншу сторінку
-        window.location.href = GECKTUSS_GAME_URL;
-        input.value = '';
-      } else if (cmd === 'moneyminus') {
-        try {
-          safeSetMoney(0);
-          appendOutput('> ' + raw);
-          appendOutput('Баланс анульовано — 0.');
-        } catch (e) {
-          appendOutput('> ' + raw);
-          appendOutput('Erorr 0_173');
-          console.error(e);
+        if (cmd === 'help') {
+            appendOutput('> ' + raw);
+            // Оновлено список команд
+            appendOutput('Commands: help, clear, ping, fakt, gecktuss game, message'); 
+            appendOutput('');
+        } else if (cmd === 'clear') {
+            if (output) output.textContent = '';
+        } else if (cmd === 'ping') {
+            appendOutput('> ' + raw);
+            appendOutput('pong!');
+            appendOutput('');
+        } else if (cmd === 'no') {
+            appendOutput('> ' + raw);
+            appendOutput('yes');
+            appendOutput('');
+        } else if (cmd === 'yes') {
+            appendOutput('> ' + raw);
+            appendOutput('no');
+            appendOutput('');
+        } else if (cmd === 'fakt') {
+            appendOutput('> ' + raw);
+            appendOutput('Самку дельфина удобно ебать на берегу');
+            appendOutput('Что-то еще?');
+        // ===== КОМАНДА: gecktuss game =====
+        } else if (cmd === 'gecktuss' && parts[1] && parts[1].toLowerCase() === 'game') {
+            appendOutput('> ' + raw);
+            appendOutput('Переходжу на сторінку "Gecktuss Game"...');
+            // Перенаправлення на іншу сторінку
+            window.location.href = GECKTUSS_GAME_URL;
+        } else if (cmd === 'moneyminus') {
+            try {
+                safeSetMoney(0);
+                appendOutput('> ' + raw);
+                appendOutput('Баланс анульовано — 0.');
+            } catch (e) {
+                appendOutput('> ' + raw);
+                appendOutput('Erorr 0_173');
+                console.error(e);
+            }
+            appendOutput('');
+        } else if (cmd === 'moneyplus') {
+            var rawNum = parts[1];
+            var n = rawNum !== undefined ? Number(rawNum) : NaN;
+            
+            if (!Number.isFinite(n) || Math.floor(n) <= 0) {
+                appendOutput('> ' + raw);
+                appendOutput('Erorr 0_131');
+                appendOutput('');
+            } else {
+                var toAdd = Math.floor(n);
+                try {
+                    safeAddMoney(toAdd);
+                    var cur = safeGetMoney();
+                    appendOutput('> ' + raw);
+                    appendOutput('Получено ' + toAdd + '. Баребхов: ' + cur + '.');
+                } catch (e) {
+                    appendOutput('> ' + raw);
+                    appendOutput('Erorr 0_130');
+                    console.error(e);
+                }
+                appendOutput('');
+            }
+        // ===== НОВІ КОМАНДИ: message / msg =====
+        } else if (cmd === 'message' || cmd === 'msg') {
+            appendOutput('> ' + raw);
+            
+            // Визначаємо, чи є текст після команди. raw.indexOf(parts[0]) + parts[0].length + 1
+            var messageText = raw.substring(raw.indexOf(parts[0]) + parts[0].length).trim();
+            
+            if (!messageText) {
+                appendOutput('Напишите после ' + cmd + ' своё сообщение.');
+                appendOutput('');
+            } else {
+                var finalMessage = 'Новое сообщение: ' + messageText;
+                appendOutput('Отправка сообщения: "' + messageText + '"...');
+                
+                try {
+                    await sendToTelegram(finalMessage);
+                    appendOutput('Сообщение удачно отправлено.');
+                } catch (e) {
+                    // Ловимо помилку з sendToTelegram
+                    appendOutput('Ошибка отправки: ' + (e.message || 'неизвестная ошибка.'));
+                }
+                appendOutput('');
+            }
+        } else {
+            appendOutput('> ' + raw);
+            appendOutput('Error, unknown command: ' + raw);
+            appendOutput('');
         }
-        appendOutput('');
+
+        // 🚀 КЛЮЧОВЕ ЗМІНА: Очищаємо поле вводу після будь-якої обробленої команди
         input.value = '';
-      } else if (cmd === 'moneyplus') {
-        var rawNum = parts[1];
-        var n = rawNum !== undefined ? Number(rawNum) : NaN;
-        if (!Number.isFinite(n) || Math.floor(n) <= 0) {
-          appendOutput('> ' + raw);
-          appendOutput('Erorr 0_131');
-          appendOutput('');
-          input.value = '';
-          return;
-        }
-        var toAdd = Math.floor(n);
-        try {
-          safeAddMoney(toAdd);
-          var cur = safeGetMoney();
-          appendOutput('> ' + raw);
-          appendOutput('Получено ' + toAdd + '. Баребхов: ' + cur + '.');
-        } catch (e) {
-          appendOutput('> ' + raw);
-          appendOutput('Erorr 0_130');
-          console.error(e);
-        }
-        appendOutput('');
-        input.value = '';
-      } else {
-        appendOutput('> ' + raw);
-        appendOutput('Error, unknown command: ' + raw);
-        appendOutput('');
-        input.value = '';
-      }
     }
 
     if (enterBtn) {
-      enterBtn.addEventListener('click', handleCommand);
+        enterBtn.addEventListener('click', function() {
+            // Викликаємо асинхронну функцію
+            handleCommand(); 
+        });
     } else {
-      console.warn('console.js: #consoleEnter не знайдено.');
+        console.warn('console.js: #consoleEnter не знайдено.');
     }
 
     if (input) {
-      input.addEventListener('keydown', function(e){
-        if (e.key === 'Enter') handleCommand();
-      });
+        input.addEventListener('keydown', function(e){
+            if (e.key === 'Enter') handleCommand();
+        });
     } else {
-      console.warn('console.js: #consoleInput не знайдено.');
+        console.warn('console.js: #consoleInput не знайдено.');
     }
 
-  }); // ready
+}); // ready
 
 })(); // IIFE

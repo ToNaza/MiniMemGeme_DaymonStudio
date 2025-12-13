@@ -229,3 +229,44 @@ document.getElementById("baza3").ondblclick = function() {
   document.getElementById("inf7").style.display = "none";
   document.getElementById("inf8").style.display = "none";
 }
+
+
+
+// document.getElementById("ot1").onclick = function() {
+//   document.getElementById("").style.display = "block";
+// }
+
+document.getElementById("ot1").onclick = function() {
+  document.getElementById("v1").style.display = "none";
+  document.getElementById("v2").style.display = "block";
+  document.getElementById("v3").style.display = "none";
+}
+
+document.getElementById("ot2").onclick = function() {
+  document.getElementById("v1").style.display = "none";
+  document.getElementById("v2").style.display = "none";
+  document.getElementById("v3").style.display = "block";
+}
+
+document.getElementById("ot5").onclick = function() {
+  document.getElementById("v1").style.display = "none";
+  document.getElementById("v2").style.display = "none";
+  document.getElementById("v3").style.display = "block";
+}
+
+document.getElementById("ot3").onclick = function() {
+  document.getElementById("v1").style.display = "none";
+  document.getElementById("v2").style.display = "none";
+  document.getElementById("v3").style.display = "none";
+}
+
+document.getElementById("ot4").onclick = function() {
+  document.getElementById("v1").style.display = "block";
+  document.getElementById("v2").style.display = "none";
+  document.getElementById("v3").style.display = "none";
+}
+
+
+
+
+
