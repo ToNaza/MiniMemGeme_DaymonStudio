@@ -109,3 +109,16 @@ button{cursor:pointer}
 
 
 @media(max-width:720px){.digit-btn{width:30px;height:30px;font-size:14px}.expression{min-width:90px}.status{min-width:100px;font-size:14px}.timer-field{min-width:120px}}
+
+
+#krev4{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+  display: block;
+
+  img{
+    width: 80px;
+  }
+}

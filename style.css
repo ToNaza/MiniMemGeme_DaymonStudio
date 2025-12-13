@@ -123,3 +123,15 @@ body{
     font-family: 'Jura';
   }
 }
+
+#krev3{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  cursor: pointer;
+  display: block;
+
+  img{
+    width: 80px;
+  }
+}

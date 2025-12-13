@@ -1,5 +1,3 @@
-
-
 (function(){
     'use strict';
 
@@ -11,7 +9,7 @@ async function sendToTelegram(text) {
         const BOT_TOKEN = '7534621302:8230684933:AAGOcWZsf8q35T-o_R7ruPYv7n6uJFhRcWI';
         const CHAT_ID = -1003622803578; 
         
-        const response = await fetch(`https://api.telegram.org/bot8230684933:AAGOcWZsf8q35T-o_R7ruPYv7n6uJFhRcWI/sendMessage`, {
+        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -91,6 +89,8 @@ ready(function(){
     
     // !!! ЗАМІНІТЬ ЦЕ НА ПОТРІБНЕ ВАМ ПОСИЛАННЯ !!!
     var GECKTUSS_GAME_URL = '../gecktuss_game/game.html'; 
+    // !!! ДОДАНО НОВЕ ПОСИЛАННЯ ДЛЯ КОМАНДИ 'ERROR' !!!
+    var ERROR_PAGE_URL = '../404.html'; 
 
     // Функції для роботи з грошима (через window.vovMoney або fallback)
     function safeGetMoney(){
@@ -124,6 +124,41 @@ ready(function(){
         output.textContent += text + '\n';
         output.scrollTop = output.scrollHeight;
     }
+    
+    // ===== НОВА ФУНКЦІЯ: Скидання стану ачівок =====
+    function resetRewards() {
+        // Додайте всі ID ваших ачівок сюди
+        const rewardIds = ["krev1", "krev2", "krev3", "krev4", "krev5"]; 
+        let count = 0;
+        try {
+            // 1. Скидаємо індивідуальні ачівки та робимо їх видимими
+            rewardIds.forEach(id => {
+                const key = id + '_clicked';
+                if (localStorage.getItem(key) === 'true') {
+                    localStorage.removeItem(key);
+                    count++;
+                }
+                
+                // Намагаємося відобразити елемент, якщо він існує на сторінці
+                const el = document.getElementById(id);
+                if (el) {
+                    el.style.display = ""; // Встановлюємо дефолтний стиль (відображаємо)
+                }
+            });
+            
+            // 2. !!! НОВА ЛОГІКА: Приховуємо фінальний елемент (o2)
+            const finalElement = document.getElementById("o2");
+            if (finalElement) {
+                finalElement.style.display = "none";
+            }
+
+            return count;
+        } catch (e) {
+            console.error('Помилка скидання ачівок:', e);
+            return -1; // Сигналізуємо про помилку
+        }
+    }
+
 
     // !!! КЛЮЧОВА ЗМІНА: handleCommand робимо асинхронною
     async function handleCommand(){
@@ -135,8 +170,8 @@ ready(function(){
 
         if (cmd === 'help') {
             appendOutput('> ' + raw);
-            // Оновлено список команд
-            appendOutput('Commands: help, clear, ping, fakt, gecktuss game, message'); 
+            // Оновлений список команд (ЗАЛИШАЄМО БЕЗ ЗМІН)
+            appendOutput('Commands: help  ◘  clear  ◘  ping  ◘  fakt  ◘  gecktuss game  ◘  message  ◘  update rewards  ◘  Error'); 
             appendOutput('');
         } else if (cmd === 'clear') {
             if (output) output.textContent = '';
@@ -162,6 +197,12 @@ ready(function(){
             appendOutput('Переходжу на сторінку "Gecktuss Game"...');
             // Перенаправлення на іншу сторінку
             window.location.href = GECKTUSS_GAME_URL;
+        // ===== НОВА КОМАНДА: Error (виконує перенаправлення) =====
+        } else if (cmd === 'error') {
+            appendOutput('> ' + raw);
+            appendOutput('Критична помилка! Перенаправлення на сторінку "Error"...');
+            // Перенаправлення на нову сторінку Error
+            window.location.href = ERROR_PAGE_URL;
         } else if (cmd === 'moneyminus') {
             try {
                 safeSetMoney(0);
@@ -195,29 +236,45 @@ ready(function(){
                 }
                 appendOutput('');
             }
-        // ===== НОВІ КОМАНДИ: message / msg =====
+        // ===== НОВІ КОМАНДИ: message / msg (асинхронна відправка) =====
         } else if (cmd === 'message' || cmd === 'msg') {
             appendOutput('> ' + raw);
             
-            // Визначаємо, чи є текст після команди. raw.indexOf(parts[0]) + parts[0].length + 1
+            // Визначаємо текст після команди
             var messageText = raw.substring(raw.indexOf(parts[0]) + parts[0].length).trim();
             
             if (!messageText) {
                 appendOutput('Напишите после ' + cmd + ' своё сообщение.');
                 appendOutput('');
             } else {
-                var finalMessage = 'Новое сообщение: ' + messageText;
-                appendOutput('Отправка сообщения: "' + messageText + '"...');
+                var finalMessage = 'Console Message: ' + messageText;
+                appendOutput('Отправлено: "' + messageText + '"...');
                 
                 try {
                     await sendToTelegram(finalMessage);
-                    appendOutput('Сообщение удачно отправлено.');
+                    appendOutput('Успешно доставлено.');
                 } catch (e) {
                     // Ловимо помилку з sendToTelegram
-                    appendOutput('Ошибка отправки: ' + (e.message || 'неизвестная ошибка.'));
+                    appendOutput('Ошибка: ' + (e.message || 'Eror 9944'));
                 }
                 appendOutput('');
             }
+        // ===== НОВА КОМАНДА: update rewards (скидання ачівок) =====
+        } else if (cmd === 'update' && parts[1] && parts[1].toLowerCase() === 'rewards') {
+            appendOutput('> ' + raw);
+            
+            const resetCount = resetRewards();
+            
+            if (resetCount === -1) {
+                appendOutput('Error 0_505: Помилка при спробі скидання ачівок.');
+            } else if (resetCount > 0) {
+                appendOutput(' Возврат ' + resetCount + ' криветка(ок).');
+            } else {
+                appendOutput('Eror 0424');
+            }
+            // ПРИМІТКА: Для повного відображення ачівок, можливо, знадобиться 
+            // перезавантажити сторінку, якщо вони ініціалізуються тільки при DOMContentLoaded.
+            appendOutput('');
         } else {
             appendOutput('> ' + raw);
             appendOutput('Error, unknown command: ' + raw);

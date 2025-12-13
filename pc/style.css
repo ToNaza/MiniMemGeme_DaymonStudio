@@ -456,6 +456,7 @@ width: 100%;
   vertical-align: top;
   overflow: hidden;
   position: relative;
+  display: none;
 
   img {
   width: 100%;
@@ -470,6 +471,12 @@ width: 100%;
   position: absolute;
   right: 0;
   bottom: 0;
+  cursor: pointer;
+  display: block;
+
+  img{
+    width: 80px;
+  }
 }
 
 

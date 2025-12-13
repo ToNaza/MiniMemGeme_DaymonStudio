@@ -1,0 +1,17 @@
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+    background-color: #828282;
+}
+
+#krev5{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+  display: block;
+
+  img{
+    width: 80px;
+  }
+}
